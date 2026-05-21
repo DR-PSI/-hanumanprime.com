@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HANUMAN PRIME — AI Engineering Assistant | Tinamics Co.,Ltd.</title>
+<meta name="description" content="AI Engineering Assistant เฉพาะทางวิศวกรรม สำหรับธุรกิจอุตสาหกรรมไทย โดย Tinamics Co.,Ltd. Authorized Siemens Distributor">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Sarabun:wght@300;400;600;700&family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1C0A00;
+  --blue: #EA580C;
+  --blue2: #C2410C;
+  --gold: #FCD34D;
+  --white: #ffffff;
+  --gray: #F4F6FB;
+  --border: #D1DCE8;
+  --text: #1A2A3A;
+  --muted: #7A90A8;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Prompt', 'Sarabun', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(234,88,12,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234,88,12,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(28,10,0,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(234,88,12,0.3);
+  padding: 0 5%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nav-logo-text span:first-child {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 3px;
+}
+
+.nav-logo-text span:last-child {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: #EA580C;
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: #FCD34D; }
+
+.nav-cta {
+  background: #EA580C;
+  color: var(--white) !important;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--blue2) !important; color: var(--white) !important; }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1C0A00 0%, #2D1200 50%, #1a0800 100%);
+  display: flex;
+  align-items: center;
+  padding: 100px 5% 60px;
+  overflow: hidden;
+}
+
+.hero-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(234,88,12,0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.hero-bg-circle.c1 { width: 600px; height: 600px; top: -100px; right: -100px; }
+.hero-bg-circle.c2 { width: 400px; height: 400px; bottom: -100px; left: 10%; }
+.hero-bg-circle.c3 { width: 200px; height: 200px; top: 30%; left: 40%; background: radial-gradient(circle, rgba(252,211,77,0.1), transparent 70%); }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(234,88,12,0.15);
+  border: 1px solid rgba(234,88,12,0.4);
+  border-radius: 20px;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+}
+
+.hero-badge span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: #FCD34D;
+  letter-spacing: 2px;
+}
+
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #FCD34D;
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-title {
+  font-family: var(--mono);
+  font-size: 3.2rem;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.hero-title span { color: #FCD34D; }
+
+.hero-subtitle {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.8;
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #EA580C;
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  border: 2px solid #EA580C;
+}
+
+.btn-primary:hover { background: var(--blue2); border-color: var(--blue2); transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+.btn-secondary:hover { border-color: #FCD34D; color: #FCD34D; transform: translateY(-2px); }
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bot-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(234,88,12,0.3);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 380px;
+  backdrop-filter: blur(10px);
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.bot-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.bot-avatar {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a3a5c, #EA580C);
+  border: 1px solid rgba(234,88,12,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.bot-info { flex: 1; }
+.bot-name { font-family: var(--mono); font-size: 0.82rem; color: var(--white); letter-spacing: 1px; }
+.bot-status { font-family: var(--mono); font-size: 0.6rem; color: #16a34a; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+.bot-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #16a34a; animation: blink 2s infinite; }
+
+.chat-msg {
+  margin-bottom: 14px;
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-msg.user { text-align: right; }
+
+.chat-bubble {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  max-width: 85%;
+}
+
+.chat-bubble.bot {
+  background: rgba(234,88,12,0.15);
+  border: 1px solid rgba(234,88,12,0.25);
+  color: rgba(255,255,255,0.85);
+  text-align: left;
+}
+
+.chat-bubble.user {
+  background: #EA580C;
+  color: var(--white);
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: rgba(234,88,12,0.15);
+  border: 1px solid rgba(234,88,12,0.25);
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.typing-indicator span {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #EA580C;
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* STATS */
+.stats-bar {
+  position: relative;
+  z-index: 1;
+  background: #EA580C;
+  padding: 28px 5%;
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+.stat-item { padding: 8px; }
+.stat-num {
+  font-family: var(--mono);
+  font-size: 2rem;
+  color: var(--white);
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+.stat-num span { color: #FCD34D; }
+.stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+/* SECTIONS */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 90px 5%;
+}
+
+.section-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: #EA580C;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-tag::before {
+  content: '';
+  width: 24px; height: 2px;
+  background: #EA580C;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 560px;
+}
+
+/* FEATURES */
+.features { background: var(--gray); }
+
+.features-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.features-header .section-tag { justify-content: center; }
+.features-header .section-desc { margin: 0 auto; }
+
+.features-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px 28px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #EA580C;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(234,88,12,0.1); }
+.feature-card:hover::before { transform: scaleX(1); }
+
+.feature-icon {
+  width: 52px; height: 52px;
+  background: rgba(234,88,12,0.08);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.feature-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.feature-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* PRODUCTS */
+.products { background: var(--white); }
+
+.products-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--gray);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.product-item:hover { border-color: #EA580C; background: rgba(234,88,12,0.04); }
+
+.product-icon {
+  width: 40px; height: 40px;
+  background: #EA580C;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.product-name { font-weight: 600; font-size: 0.9rem; }
+.product-desc { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+.siemens-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(234,88,12,0.08);
+  border: 1px solid rgba(234,88,12,0.2);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: #EA580C;
+  letter-spacing: 1px;
+  margin-top: 24px;
+}
+
+/* ABOUT */
+.about { background: #1C0A00; }
+
+.about-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about .section-tag { color: #FCD34D; }
+.about .section-tag::before { background: #FCD34D; }
+.about .section-title { color: var(--white); }
+.about .section-desc { color: rgba(255,255,255,0.6); }
+
+.about-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(234,88,12,0.25);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(10px);
+}
+
+.about-name {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.about-title-text {
+  font-size: 0.82rem;
+  color: #FCD34D;
+  margin-bottom: 20px;
+}
+
+.about-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
+
+.credential {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.credential-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #EA580C;
+  flex-shrink: 0;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.about-stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+
+.about-stat-num {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  color: #FCD34D;
+}
+
+.about-stat-label {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+/* PACKAGES */
+.packages { background: var(--gray); }
+
+.packages-inner { max-width: 1200px; margin: 0 auto; }
+.packages-header { text-align: center; margin-bottom: 50px; }
+.packages-header .section-tag { justify-content: center; }
+.packages-header .section-desc { margin: 0 auto; }
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.pkg-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.pkg-card.featured {
+  border-color: #EA580C;
+  transform: scale(1.04);
+  box-shadow: 0 12px 40px rgba(234,88,12,0.15);
+}
+
+.pkg-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #EA580C;
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.pkg-name {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.pkg-price {
+  font-family: var(--mono);
+  font-size: 2.2rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pkg-price span { font-size: 1rem; color: var(--muted); }
+.pkg-price.free-price { color: #EA580C; }
+
+.pkg-credits {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pkg-features { list-style: none; text-align: left; margin-bottom: 24px; }
+.pkg-features li {
+  font-size: 0.82rem;
+  color: var(--text);
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pkg-features li::before { content: '✓'; color: #EA580C; font-weight: bold; flex-shrink: 0; }
+
+.pkg-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 2px solid #EA580C;
+}
+
+.pkg-btn.outline { color: #EA580C; background: transparent; }
+.pkg-btn.outline:hover { background: #EA580C; color: var(--white); }
+.pkg-btn.filled { background: #EA580C; color: var(--white); border-color: #EA580C; }
+.pkg-btn.filled:hover { background: var(--blue2); }
+
+/* CTA */
+.cta-section {
+  background: linear-gradient(135deg, #1C0A00, #2D1200);
+  text-align: center;
+  padding: 100px 5%;
+}
+
+.cta-inner { max-width: 700px; margin: 0 auto; }
+
+.cta-title {
+  font-family: var(--mono);
+  font-size: 2.2rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.cta-title span { color: #FCD34D; }
+
+.cta-desc {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer {
+  position: relative;
+  z-index: 1;
+  background: #0f0500;
+  padding: 40px 5% 24px;
+  border-top: 1px solid rgba(234,88,12,0.2);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.footer-brand-name {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: #EA580C;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.footer-brand-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.footer-contact {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 2;
+}
+
+.footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-contact a:hover { color: #FCD34D; }
+
+.footer-col-title {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+.footer-links a {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: #FCD34D; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 1px;
+}
+
+.siemens-auth {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero-content { grid-template-columns: 1fr; gap: 40px; }
+  .hero-title { font-size: 2rem; }
+  .hero-visual { order: -1; }
+  .hero-bot-card { max-width: 100%; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .features-cards { grid-template-columns: 1fr; }
+  .products-inner { grid-template-columns: 1fr; gap: 40px; }
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  .packages-grid { grid-template-columns: repeat(2, 1fr); }
+  .pkg-card.featured { transform: none; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .nav-links { display: none; }
+  .section-title { font-size: 1.7rem; }
+  .cta-title { font-size: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+  .packages-grid { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .hero-btns { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="HANUMAN PRIME" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      <span>TINAMICS ENGBOT</span>
+      <span>HANUMAN PRIME</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">ฟีเจอร์</a></li>
+    <li><a href="#products">สินค้า</a></li>
+    <li><a href="#about">เกี่ยวกับเรา</a></li>
+    <li><a href="#packages">แพ็กเกจ</a></li>
+    <li><a href="https://engbot.hanumanprime.com" class="nav-cta">ทดลองใช้ฟรี →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-circle c3"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div style="margin-bottom:20px;">
+        <img src="tinamics-project.png" alt="Tinamics Projects" style="width:100%;max-width:480px;border-radius:12px;border:1px solid rgba(234,88,12,0.3);" 
+             alt="Tinamics" 
+             style="width:100%;max-width:480px;border-radius:12px;border:1px solid rgba(234,88,12,0.3);opacity:0.9;">
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        <span>AI ENGINEERING ASSISTANT · ONLINE NOW</span>
+      </div>
+      <h1 class="hero-title">HANUMAN<br><span>PRIME</span></h1>
+      <p class="hero-subtitle">BY TINAMICS CO.,LTD.</p>
+      <p class="hero-desc">
+        ผู้ช่วยวิศวกรรมอัจฉริยะที่รู้เรื่อง SINAMICS, EOCR, RAM Analysis และอีกมาก พร้อมรับใบเสนอราคาอัตโนมัติ 24 ชั่วโมง
+      </p>
+      <div class="hero-btns">
+        <a href="https://engbot.hanumanprime.com" class="btn-primary">🤖 ทดลองใช้ฟรี →</a>
+        <a href="#packages" class="btn-secondary">ดูแพ็กเกจ</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-bot-card">
+        <div class="bot-card-header">
+          <div class="bot-avatar">🦁</div>
+          <div class="bot-info">
+            <div class="bot-name">HANUMAN PRIME</div>
+            <div class="bot-status">ONLINE · READY</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-bubble user">EOCR สำหรับ Motor 15kW ควรตั้งค่ายังไงครับ?</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-bubble bot">
+            Motor 15kW @ 380V กระแส Full Load ≈ 30A ครับ<br><br>
+            ตั้งค่า OC = 30A, Delay = 5-10s<br>
+            แนะนำ EOCR-3EZ-80AUH ครับ ✓
+          </div>
+        </div>
+        <div class="chat-msg user">
+          <div class="chat-bubble user">ราคาเท่าไหร่ครับ?</div>
+        </div>
+        <div class="chat-msg">
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">20<span>+</span></div>
+      <div class="stat-label">ปีประสบการณ์วิศวกรรม</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24<span>/7</span></div>
+      <div class="stat-label">พร้อมตอบตลอดเวลา</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">Knowledge Base สินค้า</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Auto Quote Email</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-grid">
+    <div class="features-header">
+      <div class="section-tag">ฟีเจอร์</div>
+      <h2 class="section-title">ทำอะไรได้บ้าง?</h2>
+      <p class="section-desc">HANUMAN PRIME ไม่ใช่แค่ Chatbot ทั่วไป แต่เป็นผู้ช่วยวิศวกรรมที่รู้จริง ตอบได้จริง</p>
+    </div>
+
+    <div class="features-cards">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">วิศวกรรมไฟฟ้า (EE)</div>
+        <div class="feature-desc">คำนวณขนาดสายไฟ, Power Factor, Motor Protection, VFD Selection, Short Circuit Analysis</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏭</div>
+        <div class="feature-title">วิศวกรรมอุตสาหการ (IE)</div>
+        <div class="feature-desc">OEE, Cycle Time, Line Balancing, 5 Why Analysis, Lean, Kaizen, Bottleneck Analysis</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <div class="feature-title">Maintenance Engineering</div>
+        <div class="feature-desc">MTTR, MTBF, PM Planning, Vibration Analysis, FMEA, Root Cause Analysis</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">RAM Analysis</div>
+        <div class="feature-desc">คำนวณ Reliability R(t), Availability, Maintainability M(t), System RAM แบบ Series/Parallel</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">ใบเสนอราคาอัตโนมัติ</div>
+        <div class="feature-desc">Bot รวบรวมข้อมูลลูกค้า แล้วส่ง Email แจ้ง Sales ทีมอัตโนมัติ ไม่พลาด Lead</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">พัฒนา AI สำหรับธุรกิจ</div>
+        <div class="feature-desc">บริการสร้าง AI Chatbot White Label สำหรับบริษัทของคุณ พร้อม Knowledge Base เฉพาะทาง</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-inner">
+    <div>
+      <div class="section-tag">สินค้า</div>
+      <h2 class="section-title">Authorized Siemens Distributor</h2>
+      <p class="section-desc">Tinamics เป็นตัวแทนจำหน่ายอย่างเป็นทางการของ Siemens ในประเทศไทย มีสินค้าครบและบริการหลังการขายที่เชี่ยวชาญ</p>
+
+      <div class="products-list">
+        <div class="product-item">
+          <img src="product-v20.png" alt="SINAMICS V20" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+          <div>
+            <div class="product-name">SINAMICS G120X / G150 / V20</div>
+            <div class="product-desc">Variable Frequency Drive สำหรับ Pump, Fan, Compressor, HVAC</div>
+          </div>
+        </div>
+        <div class="product-item">
+          <img src="https://tinamics.com/wp-content/uploads/2025/12/EOCR-791x561.jpg" 
+               alt="EOCR" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+          <div>
+            <div class="product-name">EOCR / EUCR Digital Relay</div>
+            <div class="product-desc">Electronic Over/Under Current Relay ป้องกัน Motor ทุกประเภท</div>
+          </div>
+        </div>
+        <div class="product-item">
+          <img src="https://tinamics.com/wp-content/uploads/2025/12/soft-start-791x561.jpg" 
+               alt="Soft Start" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+          <div>
+            <div class="product-name">SIRIUS Soft Start 3RW</div>
+            <div class="product-desc">Soft Starter สำหรับ Motor ขนาดต่างๆ ลด Inrush Current</div>
+          </div>
+        </div>
+        <div class="product-item">
+          <img src="https://tinamics.com/wp-content/uploads/2025/12/S7-791x561.jpg" 
+               alt="SIMATIC S7" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+          <div>
+            <div class="product-name">SIMATIC S7 PLC / HMI</div>
+            <div class="product-desc">Programmable Logic Controller สำหรับระบบ Automation โรงงาน</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Gallery -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;margin-bottom:20px;">
+        <img src="https://tinamics.com/wp-content/uploads/2025/12/MOTOR-791x561.jpg" 
+             alt="Motors" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--border);">
+        <img src="https://tinamics.com/wp-content/uploads/2025/12/SINAMICS-PRODUCT-791x561.jpg" 
+             alt="SINAMICS" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--border);">
+        <img src="https://tinamics.com/wp-content/uploads/2025/12/PAC-Total-Tinamics-807x435.jpg" 
+             alt="Tinamics" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--border);">
+      </div>
+      <div class="siemens-badge">
+        🏆 AUTHORIZED SIEMENS DISTRIBUTOR THAILAND
+      </div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:16px;padding:40px;border:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:2px;margin-bottom:20px;">CONTACT US</div>
+      <h3 style="font-size:1.3rem;font-weight:600;margin-bottom:20px;">ติดต่อทีมงาน Tinamics</h3>
+
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.9rem;">
+          <span style="font-size:20px;">📞</span>
+          <div>
+            <div style="font-weight:600;">02-041-8187, 02-162-0232</div>
+            <div style="font-size:0.75rem;color:var(--muted);">จันทร์-ศุกร์ 8:30-17:30</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.9rem;">
+          <span style="font-size:20px;">✉️</span>
+          <div>
+            <div style="font-weight:600;">dr.ps@hanumanprime.com</div>
+            <div style="font-weight:600;">dr.pirapong@gmail.com</div>
+            <div style="font-size:0.75rem;color:var(--muted);">ตอบภายใน 24 ชั่วโมง</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.9rem;">
+          <span style="font-size:20px;">💬</span>
+          <div>
+            <div style="font-weight:600;">LINE ID: tinamics-ai</div>
+            <div style="font-size:0.75rem;color:var(--muted);">ติดต่อด่วนผ่าน LINE ได้เลย</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.9rem;">
+          <span style="font-size:20px;">📍</span>
+          <div>
+            <div style="font-weight:600;">22 ซอยเคหะร่มเกล้า 74 แยก 6</div>
+            <div style="font-size:0.75rem;color:var(--muted);">สะพานสูง กรุงเทพฯ 10240</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://engbot.hanumanprime.com" class="btn-primary" style="display:inline-flex;width:100%;justify-content:center;">
+        💬 ถามผ่าน HANUMAN PRIME Bot →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-tag">เกี่ยวกับเรา</div>
+      <h2 class="section-title">ผู้เชี่ยวชาญที่คุณไว้ใจได้</h2>
+      <p class="section-desc">Tinamics ก่อตั้งโดยวิศวกรไฟฟ้าระดับดุษฎีบัณฑิตที่มีประสบการณ์จาก Siemens โดยตรง พร้อมให้คำปรึกษาเชิงลึกทุกเรื่องวิศวกรรม</p>
+
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="about-stat-num">2005</div>
+          <div class="about-stat-label">ก่อตั้ง Tinamics</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num">PhD</div>
+          <div class="about-stat-label">Electrical Engineering</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num">PEE</div>
+          <div class="about-stat-label">สฟก.6427</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num">IEEE</div>
+          <div class="about-stat-label">Member 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <div class="about-name">ดร.พิรพงศ์ ลิ้มประสิทธิ์วงศ์</div>
+      <div class="about-title-text">Pirapong Limprasitwong, PhD.EEd | กรรมการผู้จัดการ Tinamics</div>
+      <div class="about-divider"></div>
+
+      <div class="credential"><div class="credential-dot"></div>PhD. วิศวกรรมไฟฟ้าศึกษา มจพ. (KMUTNB) 2019</div>
+      <div class="credential"><div class="credential-dot"></div>MBA สถาบันบัณฑิตพัฒนบริหารศาสตร์ (NIDA)</div>
+      <div class="credential"><div class="credential-dot"></div>วิศวกรไฟฟ้ากำลังระดับสามัญ PEE สฟก.6427</div>
+      <div class="credential"><div class="credential-dot"></div>IEEE Member 2024 #100283986</div>
+      <div class="credential"><div class="credential-dot"></div>อดีต Products Manager, Siemens Limited Thailand</div>
+      <div class="credential"><div class="credential-dot"></div>Trainer ให้ PTT, Honda, IRPC, TPI Polene</div>
+      <div class="credential"><div class="credential-dot"></div>MD Tinamics Co.,Ltd. ตั้งแต่ปี 2548</div>
+
+      <div class="about-divider"></div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);font-style:italic;">
+        "ความรู้จาก Siemens โดยตรง ผ่านการฝึกอบรมจากบริษัทแม่ ทำให้เราให้คำปรึกษาที่ถูกต้องและเชื่อถือได้"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="packages-inner">
+    <div class="packages-header">
+      <div class="section-tag">แพ็กเกจ</div>
+      <h2 class="section-title">เลือกแผนที่เหมาะกับคุณ</h2>
+      <p class="section-desc">ทดลองใช้ฟรีก่อน ไม่ต้องผูกบัตรเครดิต ยกเลิกได้ตลอดเวลา</p>
+    </div>
+
+    <div class="packages-grid">
+      <div class="pkg-card">
+        <div class="pkg-name">FREE</div>
+        <div class="pkg-price free-price">ฟรี</div>
+        <div class="pkg-credits">20 ครั้ง / ไม่หมดอายุ</div>
+        <ul class="pkg-features">
+          <li>ถามเรื่องวิศวกรรม</li>
+          <li>RAM Calculator</li>
+          <li>ขอใบเสนอราคา</li>
+        </ul>
+        <a href="https://engbot.hanumanprime.com" class="pkg-btn outline">เริ่มใช้ฟรี</a>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-name">STARTER</div>
+        <div class="pkg-price">500<span> บาท</span></div>
+        <div class="pkg-credits">50 ครั้ง / ไม่หมดอายุ</div>
+        <ul class="pkg-features">
+          <li>ทุกอย่างใน Free</li>
+          <li>Knowledge Base เฉพาะ</li>
+          <li>Priority Support</li>
+        </ul>
+        <a href="mailto:dr.ps@hanumanprime.com" class="pkg-btn outline">สั่งซื้อ</a>
+      </div>
+
+      <div class="pkg-card featured">
+        <div class="pkg-badge">ยอดนิยม</div>
+        <div class="pkg-name">PRO</div>
+        <div class="pkg-price">1,500<span> บาท</span></div>
+        <div class="pkg-credits">200 ครั้ง / ไม่หมดอายุ</div>
+        <ul class="pkg-features">
+          <li>ทุกอย่างใน Starter</li>
+          <li>Google Drive KB</li>
+          <li>Email แจ้งเตือน</li>
+          <li>Admin Dashboard</li>
+        </ul>
+        <a href="mailto:dr.ps@hanumanprime.com" class="pkg-btn filled">สั่งซื้อ</a>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-name">TEAM</div>
+        <div class="pkg-price">3,000<span> บาท</span></div>
+        <div class="pkg-credits">500 ครั้ง / ไม่หมดอายุ</div>
+        <ul class="pkg-features">
+          <li>ทุกอย่างใน Pro</li>
+          <li>หลาย User</li>
+          <li>White Label Bot</li>
+          <li>Custom Knowledge</li>
+        </ul>
+        <a href="mailto:dr.ps@hanumanprime.com" class="pkg-btn outline">ติดต่อเรา</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section style="background:var(--navy);padding:80px 5%;position:relative;z-index:1;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div style="font-family:var(--mono);font-size:0.65rem;color:#FCD34D;letter-spacing:3px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span style="width:24px;height:2px;background:#FCD34D;display:inline-block;"></span>
+        ผลงาน & สินค้า
+        <span style="width:24px;height:2px;background:#FCD34D;display:inline-block;"></span>
+      </div>
+      <h2 style="font-size:2rem;font-weight:700;color:var(--white);margin-bottom:12px;">ประสบการณ์จริง สินค้าจริง</h2>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.95rem;">Motion by TiNaMics... Solutions Provider</p>
+    </div>
+
+    <!-- Main project image -->
+    <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(234,88,12,0.25);margin-bottom:20px;">
+      <img src="tinamics-project.png" alt="Tinamics Projects" 
+           style="width:100%;display:block;object-fit:cover;max-height:420px;">
+    </div>
+
+    <!-- Product grid 2x3 -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px;">
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-v20.png" alt="SINAMICS V20" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.style.opacity='0.3'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">SINAMICS V20</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">Basic Inverter Drive</div>
+      </div>
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-g120.jpg" alt="SINAMICS G120" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.style.opacity='0.3'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">SINAMICS G120</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">General Performance Drive</div>
+      </div>
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-eocr.jpg" alt="EOCR" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.style.opacity='0.3'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">EOCR / EUCR Relay</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">Motor Protection Relay</div>
+      </div>
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-softstart.jpg" alt="Soft Start" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.src='https://tinamics.com/wp-content/uploads/2025/12/soft-start-791x561.jpg'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">SIRIUS Soft Start 3RW</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">LV/MV Soft Starter</div>
+      </div>
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-motors.jpg" alt="Motors" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.src='https://tinamics.com/wp-content/uploads/2025/12/MOTOR-791x561.jpg'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">MOTORS</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">Standard / Explosion-proof</div>
+      </div>
+      <div style="border-radius:12px;border:1px solid rgba(234,88,12,0.25);background:rgba(255,255,255,0.03);padding:16px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(234,88,12,0.25)'">
+        <img src="product-s7.jpg" alt="SIMATIC S7" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;" onerror="this.src='https://tinamics.com/wp-content/uploads/2025/12/S7-791x561.jpg'">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#FCD34D;letter-spacing:1px;margin-top:10px;">SIMATIC S7 PLC</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:3px;">Automation & Control</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="hero-badge" style="justify-content:center;margin-bottom:24px;">
+      <div class="hero-badge-dot"></div>
+      <span>พร้อมให้บริการแล้ววันนี้</span>
+    </div>
+    <h2 class="cta-title">ลองใช้ <span>HANUMAN PRIME</span><br>ฟรีเลยครับ</h2>
+    <p class="cta-desc">ไม่ต้องสมัคร ไม่ต้องผูกบัตร ทดลองถามวิศวกรรมได้เลย 20 ครั้งฟรี</p>
+    <div class="cta-btns">
+      <a href="https://engbot.hanumanprime.com" class="btn-primary">🤖 ทดลองใช้ฟรี →</a>
+      <a href="mailto:dr.ps@hanumanprime.com" class="btn-secondary">✉️ ติดต่อเรา</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">HANUMAN PRIME</div>
+      <div class="footer-brand-desc">
+        AI Engineering Assistant เฉพาะทางวิศวกรรม<br>
+        พัฒนาโดย Tinamics Co.,Ltd.<br>
+        Authorized Siemens Distributor Thailand
+      </div>
+      <div class="footer-contact">
+        📞 <a href="tel:020418187">02-041-8187</a>, 02-162-0232<br>
+        ✉️ <a href="mailto:dr.ps@hanumanprime.com">dr.ps@hanumanprime.com</a><br>
+        ✉️ <a href="mailto:dr.pirapong@gmail.com">dr.pirapong@gmail.com</a><br>
+        🌐 <a href="https://www.hanumanprime.com">www.hanumanprime.com</a><br>
+        💬 LINE ID: tinamics-ai<br>
+        📍 22 ซอยเคหะร่มเกล้า 74 แยก 6 สะพานสูง กทม. 10240
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">MENU</div>
+      <ul class="footer-links">
+        <li><a href="#features">ฟีเจอร์</a></li>
+        <li><a href="#products">สินค้า Siemens</a></li>
+        <li><a href="#about">เกี่ยวกับเรา</a></li>
+        <li><a href="#packages">แพ็กเกจ</a></li>
+        <li><a href="https://engbot.hanumanprime.com">HANUMAN PRIME Bot</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">PRODUCTS</div>
+      <ul class="footer-links">
+        <li><a href="#">SINAMICS G120X</a></li>
+        <li><a href="#">SINAMICS V20</a></li>
+        <li><a href="#">EOCR / EUCR</a></li>
+        <li><a href="#">SIRIUS Soft Start</a></li>
+        <li><a href="#">SIMATIC S7 PLC</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 TINAMICS CO.,LTD. ALL RIGHTS RESERVED.</div>
+    <div class="siemens-auth">AUTHORIZED SIEMENS DISTRIBUTOR · THAILAND</div>
+  </div>
+</footer>
+
+<script>
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// Animate elements on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .product-item, .pkg-card, .about-stat').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
